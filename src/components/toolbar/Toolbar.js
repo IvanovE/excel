@@ -1,9 +1,12 @@
 import { ExcelComponent } from "@/core/ExcelComponent"
 
 export class Toolbar extends ExcelComponent {
-  // constructor($el) {
-  //   super($el)
-  // }
+  constructor($root) {
+    super($root, {
+      name: 'Toolbar',
+      listeners: ['click']
+    })
+  }
 
   static className = 'excel__toolbar'
 
@@ -28,5 +31,9 @@ export class Toolbar extends ExcelComponent {
             <i class="fas fa-align-right"></i>
         </div>
     `
+  }
+
+  onClick(event) {
+    console.log(event.target)
   }
 }

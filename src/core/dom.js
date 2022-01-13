@@ -25,6 +25,14 @@ class Dom {
     this.$el.append(node)
     return this
   }
+
+  addListener(eventType, callback) {
+    this.$el.addEventListener(eventType, callback)
+  }
+
+  removeListener(eventType, callback) {
+    this.$el.removeEventListener(eventType, callback)
+  }
 }
 
 export function D(selector) {
