@@ -33,6 +33,14 @@ class Dom {
   removeListener(eventType, callback) {
     this.$el.removeEventListener(eventType, callback)
   }
+
+  closest(selector) {
+    return D(this.$el.closest(selector))
+  }
+
+  getCoords() {
+    return this.$el.getBoundingClientRect()
+  }
 }
 
 export function D(selector) {

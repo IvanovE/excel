@@ -21,6 +21,7 @@
     border: 1px solid $border-color
     background: #f8f9fa
     border-top: none
+    position: relative
 
   .row-data
     display: flex
@@ -30,11 +31,13 @@
     justify-content: center
     align-items: center
     background: #f8f9fa
-    min-width: $cell-width
+    width: $cell-width
+    min-width: 30px
     border: 1px solid $border-color
     border-top: none
     border-left: none
     height: 100%
+    position: relative
 
   .cell
     min-width: 40px
@@ -50,5 +53,27 @@
 
     &.selected
       border: none
-      outline: 2px solid #3c74ff
+      outline: 2px solid $hover-color
       z-index: 2
+
+  .col-resize, .row-resize
+    position: absolute
+    bottom: 0
+    right: 0
+
+    &:hover
+      background: $hover-color
+
+  .col-resize
+    top: 0
+    width: $resize
+
+    &:hover
+      cursor: col-resize
+
+  .row-resize
+    left: 0
+    height: $resize
+
+    &:hover
+      cursor: row-resize
