@@ -4,15 +4,15 @@ const CODES = {
 }
 
 
-function createCell() {
+function createCell(_, index) {
   return `
-    <div class="cell" contenteditable></div>
+    <div class="cell" data-col="${index}" contenteditable></div>
   `
 }
 
-function createColumn(charIndex) {
+function createColumn(charIndex, index) {
   return `
-    <div class="column" data-type="resizable">
+    <div class="column"  data-col="${index}" data-type="resizable">
         ${charIndex}
         <div class="col-resize" data-resize="col"></div>
     </div>
@@ -25,7 +25,7 @@ function createRow(index, content) {
     : ''
 
   return `
-    <div class="row">
+    <div class="row" data-type="resizable">
         <div class="row-info">
             ${index ? index : ''}
             ${resizer}
@@ -51,12 +51,12 @@ export function createTable(rowsCount = 15) {
 
   rows.push(createRow(null, cols))
 
-  const cells = new Array(colsCount)
-    .fill('')
-    .map(createCell)
-    .join('')
-
   for (let i = 0; i < rowsCount; i++) {
+    const cells = new Array(colsCount)
+      .fill('')
+      .map(createCell)
+      .join('')
+
     rows.push(createRow(i + 1, cells))
   }
 

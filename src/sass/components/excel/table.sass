@@ -11,6 +11,7 @@
     flex-direction: row
     min-height: 20px
     height: $row-height
+    user-select: none
 
   .row-info
     display: flex
@@ -38,9 +39,10 @@
     border-left: none
     height: 100%
     position: relative
+    user-select: none
 
   .cell
-    min-width: 40px
+    min-width: 30px
     padding: 5px
     width: $cell-width
     height: 100%
@@ -60,9 +62,12 @@
     position: absolute
     bottom: 0
     right: 0
+    background: $hover-color
+    opacity: 0
+    z-index: 1000
 
     &:hover
-      background: $hover-color
+      opacity: 1!important
 
   .col-resize
     top: 0
