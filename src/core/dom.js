@@ -46,10 +46,41 @@ class Dom {
     return this.$el.querySelectorAll(selector)
   }
 
+  querySelect(selector) {
+    return D(this.$el.querySelector(selector))
+  }
+
   css(styles = {}) {
     Object
       .keys(styles)
       .forEach(styleName => this.$el.style[styleName] = styles[styleName])
+  }
+
+  addClass(className) {
+    this.$el.classList.add(className)
+    return this
+  }
+
+  removeClass(className) {
+    this.$el.classList.remove(className)
+    return this
+  }
+
+  focus() {
+    this.$el.focus()
+    return this
+  }
+
+  id(parse) {
+    if (parse) {
+      const parsed = this.id().split(':')
+      return {
+        row: +parsed[0],
+        col: +parsed[1]
+      }
+    }
+
+    return this.$el.dataset.id
   }
 
   get data() {
