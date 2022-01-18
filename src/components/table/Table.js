@@ -8,10 +8,11 @@ import { D } from "@/core/dom"
 export class Table extends ExcelComponent {
   static className = 'excel__table'
 
-  constructor($root) {
+  constructor($root, options) {
     super($root, {
       name: 'Table',
-      listeners: ['mousedown', 'keydown']
+      listeners: ['mousedown', 'keydown', 'input'],
+      ...options
     })
   }
 
@@ -21,12 +22,23 @@ export class Table extends ExcelComponent {
 
   init() {
     super.init()
-    const $cell = this.$root.querySelect('[data-id="0:0"]')
-    this.selection.select($cell)
+    this.selectCell(this.$root.querySelect('[data-id="0:0"]'))
+    this.$subscribe('formula:input', text => {
+      this.selection.current.content(text) // Как observer понимает что this.selection это тут ?
+    })
+
+    this.$subscribe('formula:done', () => {
+      this.selection.current.focus()
+    })
   }
 
   toHTML() {
     return createTable(50)
+  }
+
+  selectCell($cell) {
+    this.selection.select($cell)
+    this.$trigger('table:select', $cell)
   }
 
   onMousedown(event) {
@@ -41,7 +53,7 @@ export class Table extends ExcelComponent {
           .map(el => this.$root.querySelect(`[data-id="${el}"]`))
         this.selection.selectGroup($cells)
       } else {
-        this.selection.select($target)
+        this.selectCell($target)
       }
     }
   }
@@ -51,10 +63,13 @@ export class Table extends ExcelComponent {
     const {key} = event
     if (keys.includes(key) && !event.shiftKey) {
       event.preventDefault()
-
       const id = this.selection.current.id(true)
       const $next = this.$root.querySelect(nextSelector(key, id))
-      this.selection.select($next)
+      this.selectCell($next)
     }
+  }
+
+  onInput(event) {
+    this.$trigger('table:input', D(event.target))
   }
 }

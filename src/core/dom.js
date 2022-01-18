@@ -86,6 +86,17 @@ class Dom {
   get data() {
     return this.$el.dataset
   }
+
+  content(text) {
+    if (typeof text === 'string') {
+      this.$el.textContent = text
+      return this
+    }
+    if (this.$el.tagName.toLowerCase() === 'input') {
+      return this.$el.value.trim()
+    }
+    return this.$el.textContent.trim()
+  }
 }
 
 export function D(selector) {

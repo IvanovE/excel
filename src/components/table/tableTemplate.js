@@ -12,8 +12,8 @@ function createCell(row) {
         data-type="cell"
         data-col="${col}" 
         data-id="${row}:${col}" 
-        contenteditable>    
-    </div>
+        contenteditable
+    ></div>
   `
   }
 }
