@@ -24,9 +24,8 @@ export class Table extends ExcelComponent {
     super.init()
     this.selectCell(this.$root.querySelect('[data-id="0:0"]'))
     this.$subscribe('formula:input', text => {
-      this.selection.current.content(text) // Как observer понимает что this.selection это тут ?
+      this.selection.current.content(text)
     })
-
     this.$subscribe('formula:done', () => {
       this.selection.current.focus()
     })
