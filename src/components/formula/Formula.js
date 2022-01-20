@@ -22,10 +22,10 @@ export class Formula extends ExcelComponent {
   init() {
     super.init()
     this.$formula = this.$root.querySelect('#formula')
-    this.$subscribe('table:select', $cell => {
+    this.$on('table:select', $cell => {
       this.$formula.content($cell.content())
     })
-    this.$subscribe('table:input', $cell => {
+    this.$on('table:input', $cell => {
       this.$formula.content($cell.content())
     })
   }

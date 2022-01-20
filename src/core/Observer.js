@@ -14,7 +14,7 @@ export class Observer {
     return true
   }
 
-  subscribe(event, fn) {
+  on(event, fn) {
     this.listeners[event] = this.listeners[event] || []
     this.listeners[event].push(fn)
     return () => {

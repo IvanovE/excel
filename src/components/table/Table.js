@@ -4,6 +4,7 @@ import { createTable } from "@/components/table/tableTemplate"
 import { resizeHandler } from "@/components/table/tableResize"
 import { shouldResize, isCell, selectedMatrix, nextSelector } from "@/components/table/tableFunctions"
 import { D } from "@/core/dom"
+import * as actions from '@/redux/actions'
 
 export class Table extends ExcelComponent {
   static className = 'excel__table'
@@ -23,16 +24,18 @@ export class Table extends ExcelComponent {
   init() {
     super.init()
     this.selectCell(this.$root.querySelect('[data-id="0:0"]'))
-    this.$subscribe('formula:input', text => {
+    this.$on('formula:input', text => {
       this.selection.current.content(text)
     })
-    this.$subscribe('formula:done', () => {
+    this.$on('formula:done', () => {
       this.selection.current.focus()
     })
+
+    // this.$subscribe(state => console.log(state))
   }
 
   toHTML() {
-    return createTable(50)
+    return createTable(50, this.store.getState())
   }
 
   selectCell($cell) {
@@ -40,11 +43,19 @@ export class Table extends ExcelComponent {
     this.$trigger('table:select', $cell)
   }
 
+  async resizeTable(event) {
+    try {
+      const data = await resizeHandler(this.$root, event)
+      this.$dispatch(actions.tableResize(data))
+    } catch (e) {
+      console.error('Resize error', e.message)
+    }
+  }
+
   onMousedown(event) {
     if (shouldResize(event)) {
-      resizeHandler(this.$root, event)
+      this.resizeTable(event)
     }
-
     if (isCell(event)) {
       const $target = D(event.target)
       if (event.shiftKey) {
