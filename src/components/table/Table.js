@@ -26,6 +26,7 @@ export class Table extends ExcelComponent {
     this.selectCell(this.$root.querySelect('[data-id="0:0"]'))
     this.$on('formula:input', text => {
       this.selection.current.content(text)
+      this.updateTextInStore(text)
     })
     this.$on('formula:done', () => {
       this.selection.current.focus()
@@ -52,9 +53,9 @@ export class Table extends ExcelComponent {
     }
   }
 
-  onMousedown(event) {
+  async onMousedown(event) {
     if (shouldResize(event)) {
-      this.resizeTable(event)
+      await this.resizeTable(event)
     }
     if (isCell(event)) {
       const $target = D(event.target)
@@ -79,7 +80,15 @@ export class Table extends ExcelComponent {
     }
   }
 
+  updateTextInStore(value) {
+    this.$dispatch(actions.changeText({
+      id: this.selection.current.id(),
+      value
+    }))
+  }
+
   onInput(event) {
-    this.$trigger('table:input', D(event.target))
+    // this.$trigger('table:input', D(event.target))
+    this.updateTextInStore(D(event.target).content())
   }
 }

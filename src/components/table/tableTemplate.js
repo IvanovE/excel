@@ -4,11 +4,19 @@ const CODES = {
 }
 
 function getWidth(index, colState) {
-  if (!colState) return
   return colState[index] ? colState[index] + 'px' : ''
 }
 
-function createCell({col, row, width}) {
+function getHeight(index, rowState) {
+  return rowState[index] ? rowState[index] + 'px' : ''
+}
+
+function getContent(row, col, dataState) {
+  const id = `${row}:${col}`
+  return dataState[id] ? dataState[id] : ''
+}
+
+function createCell({col, row, width, content}) {
   const widthStorage = width ? `style ="width: ${width}"` : ''
   return `
   <div
@@ -18,7 +26,7 @@ function createCell({col, row, width}) {
       data-id="${row}:${col}" 
       contenteditable
       ${widthStorage}
-  ></div>
+  >${content}</div>
 `
 }
 
@@ -32,13 +40,15 @@ function createColumn({charIndex, index, width}) {
   `
 }
 
-function createRow(index, content) {
+function createRow(index, content, rowState) {
   const resizer = index
     ? '<div class="row-resize" data-resize="row"></div>'
     : ''
+  const height = getHeight(index - 1, rowState)
+  const heightStorage = height ? `style ="height: ${height}"` : ''
 
   return `
-    <div class="row" data-type="resizable">
+    <div class="row" data-type="resizable" data-row="${index - 1}" ${heightStorage}>
         <div class="row-info">
             ${index ? index : ''}
             ${resizer}
@@ -52,12 +62,12 @@ function toChar(_, index) {
   return String.fromCharCode(CODES.A + index)
 }
 
-function prepareColumn(state) {
+function prepareColumn(colState) {
   return function (charIndex, index) {
     return {
       charIndex,
       index,
-      width: getWidth(index, state.colState)
+      width: getWidth(index, colState)
     }
   }
 }
@@ -67,7 +77,8 @@ function prepareCell(row, state) {
     return {
       col,
       row,
-      width: getWidth(col, state.colState)
+      width: getWidth(col, state.colState),
+      content: getContent(row, col, state.dataState)
     }
   }
 }
@@ -79,11 +90,11 @@ export function createTable(rowsCount = 15, state = {}) {
   const cols = new Array(colsCount)
     .fill('')
     .map(toChar)
-    .map(prepareColumn(state))
+    .map(prepareColumn(state.colState))
     .map(createColumn)
     .join('')
 
-  rows.push(createRow(null, cols))
+  rows.push(createRow(null, cols, {}))
 
   for (let row = 0; row < rowsCount; row++) {
     const cells = new Array(colsCount)
@@ -92,7 +103,7 @@ export function createTable(rowsCount = 15, state = {}) {
       .map(createCell)
       .join('')
 
-    rows.push(createRow(row + 1, cells))
+    rows.push(createRow(row + 1, cells, state.rowState))
   }
 
   return rows.join('')

@@ -6,3 +6,10 @@ export function tableResize(data) {
     data
   }
 }
+
+export function changeText(data) {
+  return {
+    type: types.CHANGE_TEXT,
+    data
+  }
+}
