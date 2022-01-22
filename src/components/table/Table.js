@@ -13,6 +13,7 @@ export class Table extends ExcelComponent {
     super($root, {
       name: 'Table',
       listeners: ['mousedown', 'keydown', 'input'],
+      subscribe: ['currentText'],
       ...options
     })
   }
@@ -25,18 +26,20 @@ export class Table extends ExcelComponent {
     super.init()
     this.selectCell(this.$root.querySelect('[data-id="0:0"]'))
     this.$on('formula:input', text => {
-      this.selection.current.content(text)
+      // this.selection.current.content(text)
       this.updateTextInStore(text)
     })
     this.$on('formula:done', () => {
       this.selection.current.focus()
     })
-
-    // this.$subscribe(state => console.log(state))
   }
 
   toHTML() {
     return createTable(50, this.store.getState())
+  }
+
+  storeChanged({currentText}) {
+    this.selection.current.content(currentText)
   }
 
   selectCell($cell) {
@@ -88,7 +91,6 @@ export class Table extends ExcelComponent {
   }
 
   onInput(event) {
-    // this.$trigger('table:input', D(event.target))
     this.updateTextInStore(D(event.target).content())
   }
 }

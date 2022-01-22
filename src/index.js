@@ -17,7 +17,6 @@ const store = createStore(rootReducer, initialState)
 
 store.subscribe(state => {
   storage('excel-state', state)
-  console.log(store.getState())
 })
 
 const excel = new Excel('#app', {

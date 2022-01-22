@@ -1,5 +1,6 @@
 import { ExcelComponent } from "@/core/ExcelComponent"
 import { D } from "@/core/dom"
+import * as actions from "@/redux/actions";
 
 export class Formula extends ExcelComponent {
   constructor($root, options) {
@@ -26,10 +27,6 @@ export class Formula extends ExcelComponent {
     this.$on('table:select', $cell => {
       this.$formula.content($cell.content())
     })
-    // this.$on('table:input', $cell => {
-    //   this.$formula.content($cell.content())
-    // })
-    // this.$subscribe(state => this.$formula.content(state.currentText))
   }
 
   storeChanged({currentText}) {
