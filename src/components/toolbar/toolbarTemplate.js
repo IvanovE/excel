@@ -15,31 +15,37 @@ export function createToolbar(state) {
     {
       icon: 'fas fa-bold',
       active: state['fontWeight'] === 'bold',
-      value: {fontWeight: state['fontWeight'] === 'bold' ? 'normal' : 'bold'}
+      value: {fontWeight: state['fontWeight'] === 'bold'
+          ? 'normal'
+          : 'bold'}
     },
     {
       icon: 'fas fa-italic',
       active: state['fontStyle'] === 'italic',
-      value: {fontStyle: state['fontStyle'] === 'italic' ? 'normal' : 'italic'}
+      value: {fontStyle: state['fontStyle'] === 'italic'
+          ? 'normal'
+          : 'italic'}
     },
     {
       icon: 'fas fa-underline',
       active: state['textDecoration'] === 'underline',
-      value: {textDecoration: state['textDecoration'] === 'underline' ? 'none' : 'underline'}
+      value: {textDecoration: state['textDecoration'] === 'underline'
+          ? 'none'
+          : 'underline'}
     },
     {
       icon: 'fas fa-align-left',
-      active: false,
+      active: state['textAlign'] === 'left',
       value: {textAlign: 'left'}
     },
     {
       icon: 'fas fa-align-center',
-      active: false,
+      active: state['textAlign'] === 'center',
       value: {textAlign: 'center'}
     },
     {
       icon: 'fas fa-align-right',
-      active: false,
+      active: state['textAlign'] === 'right',
       value: {textAlign: 'right'}
     }
   ]

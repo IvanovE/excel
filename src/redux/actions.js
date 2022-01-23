@@ -13,3 +13,17 @@ export function changeText(data) {
     data
   }
 }
+
+export function changeStyles(data) {
+  return {
+    type: types.CHANGE_STYLES,
+    data
+  }
+}
+
+export function applyStyle(data) {
+  return {
+    type: types.APPLY_STYLE,
+    data
+  }
+}

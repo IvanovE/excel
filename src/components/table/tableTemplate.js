@@ -1,3 +1,5 @@
+import { toInlineStyles } from "@/core/utils"
+
 const CODES = {
   A: 65,
   Z: 90
@@ -16,17 +18,19 @@ function getContent(row, col, dataState) {
   return dataState[id] ? dataState[id] : ''
 }
 
-function createCell({col, row, width, content}) {
-  const widthStorage = width ? `style ="width: ${width}"` : ''
-  return `
-  <div
-      class="cell" 
-      data-type="cell"
-      data-col="${col}" 
-      data-id="${row}:${col}" 
-      contenteditable
-      ${widthStorage}
-  >${content}</div>
+function createCell({col, row, width, content, stylesState}) { // Пустой итоговый style в шаблоне #toDo
+  const id = `${row}:${col}`
+  const widthStorage = width ? `width: ${width};` : ''
+  const styles = stylesState[id] ? toInlineStyles(stylesState[id]) : ''
+  return ` 
+      <div
+          class="cell" 
+          data-type="cell"
+          data-col="${col}" 
+          data-id="${id}" 
+          contenteditable
+          style="${widthStorage}${styles}" 
+      >${content}</div>
 `
 }
 
@@ -78,7 +82,8 @@ function prepareCell(row, state) {
       col,
       row,
       width: getWidth(col, state.colState),
-      content: getContent(row, col, state.dataState)
+      content: getContent(row, col, state.dataState),
+      stylesState: state.stylesState
     }
   }
 }
