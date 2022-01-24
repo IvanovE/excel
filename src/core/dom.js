@@ -88,7 +88,7 @@ class Dom {
   }
 
   content(text) {
-    if (typeof text === 'string') {
+    if (typeof text !== 'undefined') {
       this.$el.textContent = text
       return this
     }
@@ -103,6 +103,14 @@ class Dom {
       res[style] = this.$el.style[style]
       return res
     }, {})
+  }
+
+  attribute(attrName, value) {
+    if (value) {
+      this.$el.setAttribute(attrName, value)
+      return this
+    }
+    return this.$el.getAttribute(attrName)
   }
 }
 

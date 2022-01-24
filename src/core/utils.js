@@ -40,3 +40,26 @@ export function toInlineStyles(styles = {}) {
     .map(key => `${camelToDashCase(key)}:${styles[key]}`)
     .join(';')
 }
+
+export function debounce(fn, wait) {
+  let timeout
+  return function (...args) {
+    const later = () => {
+      clearTimeout(timeout)
+      fn.apply(this, args)
+    }
+    clearTimeout(timeout)
+    timeout = setTimeout(later, wait)
+  }
+}
+
+export function parse(value = '') {
+  if (value.startsWith('=')) {
+    try {
+      return eval(value.slice(1))
+    } catch (e) {
+      return value
+    }
+  }
+  return value
+}

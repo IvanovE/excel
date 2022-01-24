@@ -6,6 +6,7 @@ import { shouldResize, isCell, selectedMatrix, nextSelector } from "@/components
 import { D } from "@/core/dom"
 import * as actions from '@/redux/actions'
 import { defaultStyles } from "@/core/constants"
+import { parse } from "@/core/utils"
 
 export class Table extends ExcelComponent {
   static className = 'excel__table'
@@ -23,12 +24,31 @@ export class Table extends ExcelComponent {
     this.selection = new TableSelection()
   }
 
+  updateTextInStore(value) {
+    this.$dispatch(actions.changeText({
+      id: this.selection.current.id(),
+      value
+    }))
+  }
+
+  updateCell(value) {
+    if (value === '') {
+      this.selection.current
+        .attribute('data-value', ' ')
+        .content('')
+      return
+    }
+    this.selection.current
+      .attribute('data-value', value)
+      .content(parse(value))
+  }
+
   init() {
     super.init()
     this.selectCell(this.$root.querySelect('[data-id="0:0"]'))
-    this.$on('formula:input', text => {
-      this.selection.current.content(text)
-      this.updateTextInStore(text)
+    this.$on('formula:input', value => {
+      this.updateCell(value)
+      this.updateTextInStore(value)
     })
     this.$on('formula:done', () => {
       this.selection.current.focus()
@@ -51,6 +71,9 @@ export class Table extends ExcelComponent {
     this.$trigger('table:select', $cell)
     const styles = $cell.getStyles(Object.keys(defaultStyles))
     this.$dispatch(actions.changeStyles(styles))
+    this.$dispatch(actions.selectCell({
+      value: $cell.data.value
+    }))
   }
 
   async resizeTable(event) {
@@ -89,14 +112,9 @@ export class Table extends ExcelComponent {
     }
   }
 
-  updateTextInStore(value) {
-    this.$dispatch(actions.changeText({
-      id: this.selection.current.id(),
-      value
-    }))
-  }
-
   onInput(event) {
-    this.updateTextInStore(D(event.target).content())
+    const value = D(event.target).content()
+    this.updateCell(value)
+    this.updateTextInStore(value)
   }
 }

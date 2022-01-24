@@ -30,6 +30,20 @@ export function rootReducer(state, action) {
         currentStyles: {...state.currentStyles, ...action.data.style}
       }
 
+    case types.CHANGE_TITLE:
+      field = 'titleState'
+      return {
+        ...state,
+        [field]: action.data.title
+      }
+
+    case types.CELL_SELECTION:
+      field = 'currentText'
+      return {
+        ...state,
+        [field]: action.data.value
+      }
+
     default: return state
   }
 }

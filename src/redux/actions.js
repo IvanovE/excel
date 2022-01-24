@@ -27,3 +27,17 @@ export function applyStyle(data) {
     data
   }
 }
+
+export function changeTitle(data) {
+  return {
+    type: types.CHANGE_TITLE,
+    data
+  }
+}
+
+export function selectCell(data) {
+  return {
+    type: types.CELL_SELECTION,
+    data
+  }
+}

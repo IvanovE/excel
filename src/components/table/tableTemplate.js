@@ -1,4 +1,6 @@
 import { toInlineStyles } from "@/core/utils"
+import { defaultStyles } from "@/core/constants"
+import { parse } from "@/core/utils"
 
 const CODES = {
   A: 65,
@@ -18,19 +20,25 @@ function getContent(row, col, dataState) {
   return dataState[id] ? dataState[id] : ''
 }
 
-function createCell({col, row, width, content, stylesState}) { // Пустой итоговый style в шаблоне #toDo
+function createCell({col, row, width, content, stylesState}) {
   const id = `${row}:${col}`
   const widthStorage = width ? `width: ${width};` : ''
-  const styles = stylesState[id] ? toInlineStyles(stylesState[id]) : ''
+  const styles = stylesState[id]
+    ? toInlineStyles({
+      ...stylesState[id],
+      ...defaultStyles
+    })
+    : toInlineStyles(defaultStyles)
   return ` 
       <div
           class="cell" 
           data-type="cell"
           data-col="${col}" 
           data-id="${id}" 
+          data-value="${content || ''}"
           contenteditable
           style="${widthStorage}${styles}" 
-      >${content}</div>
+      >${parse(content)}</div>
 `
 }
 
