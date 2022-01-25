@@ -21,12 +21,4 @@ export class DashboardPage extends Page {
     `
     )
   }
-
-  afterRender() {
-
-  }
-
-  destroy() {
-
-  }
 }

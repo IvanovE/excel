@@ -41,3 +41,9 @@ export function selectCell(data) {
     data
   }
 }
+
+export function updateDate() {
+  return {
+    type: types.UPDATE_DATE
+  }
+}

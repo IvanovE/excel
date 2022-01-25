@@ -1,4 +1,4 @@
-import { storage } from "@/core/utils"
+import { clone, storage } from "@/core/utils"
 import { defaultStyles, defaultTitle } from "@/core/constants"
 
 const defaultState = {
@@ -8,9 +8,12 @@ const defaultState = {
   stylesState: {},
   currentText: '',
   titleState: defaultTitle,
-  currentStyles: defaultStyles
+  currentStyles: defaultStyles,
+  openedDate: new Date().toJSON()
 }
 
-export const initialState = storage('excel-state')
-  ? storage('excel-state')
-  : defaultState
+export const initialState = (id) => {
+  return storage(`excel:${id}`)
+  ? storage(`excel:${id}`)
+  : clone(defaultState)
+}

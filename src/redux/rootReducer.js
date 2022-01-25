@@ -44,6 +44,13 @@ export function rootReducer(state, action) {
         [field]: action.data.value
       }
 
+    case types.UPDATE_DATE:
+      field = 'openedDate'
+      return {
+        ...state,
+        [field]: new Date().toJSON()
+      }
+
     default: return state
   }
 }
