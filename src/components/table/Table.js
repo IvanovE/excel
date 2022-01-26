@@ -5,8 +5,8 @@ import { resizeHandler } from "@/components/table/tableResize"
 import { shouldResize, isCell, selectedMatrix, nextSelector } from "@/components/table/tableFunctions"
 import { D } from "@/core/dom"
 import * as actions from '@/redux/actions'
-import { defaultStyles } from "@/core/constants"
-import { parse } from "@/core/utils"
+import { defaultStyles } from "@/utils/constants"
+import { parse } from "@/utils/utils"
 
 export class Table extends ExcelComponent {
   static className = 'excel__table'

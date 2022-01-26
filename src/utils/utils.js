@@ -1,4 +1,4 @@
-import {defaultStyles} from "@/core/constants";
+import {defaultStyles} from "@/utils/constants";
 
 export function capitalize(string) {
   if (typeof string !== 'string') {

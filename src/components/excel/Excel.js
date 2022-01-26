@@ -1,6 +1,6 @@
 import { D } from "@/core/dom"
 import { Observer } from "@/core/Observer"
-import { StoreSubscriber } from "@/core/StoreSubscriber"
+import { StoreSubscriber } from "@/core/store/StoreSubscriber"
 import { updateDate } from "@/redux/actions"
 
 export class Excel {

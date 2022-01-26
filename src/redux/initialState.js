@@ -1,5 +1,5 @@
-import { clone, storage } from "@/core/utils"
-import { defaultStyles, defaultTitle } from "@/core/constants"
+import { clone, storage } from "@/utils/utils"
+import { defaultStyles, defaultTitle } from "@/utils/constants"
 
 const defaultState = {
   rowState: {},
