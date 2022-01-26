@@ -12,8 +12,8 @@ const defaultState = {
   openedDate: new Date().toJSON()
 }
 
-export const initialState = (id) => {
-  return storage(`excel:${id}`)
-  ? storage(`excel:${id}`)
+export const initialState = (state) => {
+  return storage(state)
+  ? storage(state)
   : clone(defaultState)
 }
