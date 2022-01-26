@@ -1,4 +1,4 @@
-import { clone, storage } from "@/utils/utils"
+import { clone } from "@/utils/utils"
 import { defaultStyles, defaultTitle } from "@/utils/constants"
 
 const defaultState = {
@@ -13,7 +13,7 @@ const defaultState = {
 }
 
 export const initialState = (state) => {
-  return storage(state)
-  ? storage(state)
+  return state
+  ? state
   : clone(defaultState)
 }
